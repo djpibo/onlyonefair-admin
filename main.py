@@ -14,10 +14,6 @@ def main():
         print(f"[log] 시트 업로드 배치 수행")
         commander.start_sheet_data_batch()
 
-    if sys.argv[1] == "포인트":
-        print(f"[log] 배치 커멘드 수행")
-        commander.point_consumer() # NFC..? or Sheet
-
     if sys.argv[1] == "마감":
         print(f"[log] 마감 배치 수행")
         commander.force_exit()

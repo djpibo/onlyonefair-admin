@@ -1,4 +1,5 @@
 from typing import List
+import pandas as pd
 
 from config.connect import get_google_sheets_service
 
@@ -11,6 +12,14 @@ class GoogleSheetsClient:
         return (self.service.spreadsheets().values()
                 .get(spreadsheetId=spreadsheet_id, range=range_name)
                 .execute().get("values", []))
+
+    def fetch_survey_data(self, spreadsheet_id, range_name):
+        sheet = self.service.spreadsheets()
+        result = sheet.values().get(spreadsheetId=spreadsheet_id, range=range_name).execute()
+        values = result.get('values', [])
+        df = pd.DataFrame(values, columns=['사번', '회사', '항목'])
+        unique_df = df.drop_duplicates(subset=['사번', '항목'])
+        count_df = unique_df.groupby('사번').size().reset_index(name='고유 항목 수')
 
     def clear_sheet_data(self, spreadsheet_id):
         # Clear API 요청 본문 생성

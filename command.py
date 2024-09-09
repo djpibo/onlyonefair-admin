@@ -80,7 +80,7 @@ class Commander:
         print(f"[log] Total:{len(datas)},\n0점 처리:{cnt_zero}\n만점 처리:{cnt_full}\n정상 처리:{cnt_normal}")
 
     # 포인트 차감
-    def point_consumer(self, login_dto):
+    def consume_point(self, login_dto):
         consumer = login_dto.peer_id
 
         # 1 연속 거래 방지

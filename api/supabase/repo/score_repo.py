@@ -17,7 +17,7 @@ class ScoreRepository:
                 "id": row[QUIZ_SHEET_COL_INDEX_ID],
                 "quiz_dvcd": QUIZ_DVCD_ROOM_QUIZ,
                 "company_dvcd": quiz_company,
-                "score": row[QUIZ_SHEET_COL_INDEX_SCORE].split('/')[0].strip()
+                "score": 20+row[QUIZ_SHEET_COL_INDEX_SCORE].split('/')[0].strip()
             }
             for row in values
         ]
