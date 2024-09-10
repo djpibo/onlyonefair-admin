@@ -48,18 +48,10 @@ class PointMgr:
             (CMS_QUIZ_SPREADSHEET_ID, 13) # ENM 커머스
         ]
 
-        while True:
-            for spreadsheet_id, company_dvcd in companies:
-                self.fetch_and_update_quiz_point(spreadsheet_id, SAMPLE_RANGE_NAME, company_dvcd)
-            # response = self.score_repo.fetch_score_from_supabase()
-            #
-            # print(f"[log] 전 사원 포인트 현황 시트에 기록중... ")
-            # self.google_sheet_client.batch_update_sheet_data(
-            #     # 실시간 포인트 현황 시트 id
-            #     TOTAL_SCORE_SPREADSHEET_ID,
-            #     # 첫 줄 헤더
-            #     list(RankDTO.__annotations__.keys()),
-            #     # JSON to [[..]]
-            #     MapperUtil.convert_dicts_to_lists(response))
+        for spreadsheet_id, company_dvcd in companies:
+            self.fetch_and_update_quiz_point(spreadsheet_id, SAMPLE_RANGE_NAME, company_dvcd)
 
-            time.sleep(5)  # 각 회사 처리 후 5초 대기
+
+    def upload_survey_point(self):
+        response = self.google_sheet_client.fetch_survey_data(SURVEY_SPREADSHEET_ID)
+        self.score_repo.upsert_survey_point(response)

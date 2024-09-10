@@ -17,7 +17,7 @@ class ScoreRepository:
                 "id": row[QUIZ_SHEET_COL_INDEX_ID],
                 "quiz_dvcd": QUIZ_DVCD_ROOM_QUIZ,
                 "company_dvcd": quiz_company,
-                "score": 20+row[QUIZ_SHEET_COL_INDEX_SCORE].split('/')[0].strip()
+                "score": 20+int(row[QUIZ_SHEET_COL_INDEX_SCORE].split('/')[0].strip())
             }
             for row in values
         ]
@@ -158,3 +158,18 @@ class ScoreRepository:
         if response.data is None:
             return None
         return response.data
+
+    def upsert_survey_point(self, _df):
+        print(f"[log] 대표작 사전질문 포인트 적용 시작 ...")
+        data_to_upsert = [
+            {
+                "id": row['사번'],
+                "quiz_dvcd": QUIZ_DVCD_SURVEY,
+                "company_dvcd": COMPANY_NAMES.get("대표작") or 21,
+                "score": 100 * row['회사']
+            }
+            for index, row in _df.iterrows()
+        ]
+
+        self.supabase.table("Score_Info").upsert(data_to_upsert).execute()
+        print(f"[log] 대표작 사전질문 포인트 적용 완료")

@@ -1,4 +1,5 @@
 import math
+import time
 
 from api.supabase.model.common import LoginDTO
 from api.supabase.model.point import ConsumeInfoDTO
@@ -19,7 +20,10 @@ class Commander:
         self.point_mgr = point_mgr
 
     def start_sheet_data_batch(self):
-        self.point_mgr.upload_room_quiz_point()
+        while True:
+            self.point_mgr.upload_room_quiz_point()
+            self.point_mgr.upload_survey_point()
+            time.sleep(5)
 
     def force_exit(self):
         # 최초 입장인 경우 + 최소 시간 이하면 0점 처리
